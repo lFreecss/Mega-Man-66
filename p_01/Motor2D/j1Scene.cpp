@@ -76,7 +76,7 @@ bool j1Scene::Update(float dt)
 
 	//Scroll
 	
-	if (App->player->pos.x > App->render->camera.x + 200 && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->render->camera.x != -2600) {
+	if (App->player->pos.x > App->render->camera.x + 200 && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->render->camera.x != -1070) {
 
 		App->render->camera.x -= 1;
 		gate = false;
@@ -88,14 +88,14 @@ bool j1Scene::Update(float dt)
 		gate = false;
 	}
 
-	if (App->player->pos.x >= 1440) {
-		App->player->pos.x = 100;
+	if (App->player->pos.x >= 740) {
+		App->player->pos.x = 60.0;
 		App->render->camera.x = 0;
 		
 		App->map->CleanUp();
 		if (current_map == "untitled.tmx") {
-			App->map->Load("hello2.tmx");
-			current_map = "hello2.tmx";
+			App->map->Load("JAIL.tmx");
+			current_map = "JAIL.tmx";
 		}
 		else {
 			App->map->Load("untitled.tmx");
@@ -106,8 +106,8 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			App->map->CleanUp();
 		if (current_map == "untitled.tmx") {
-			App->map->Load("hello2.tmx");
-			current_map = "hello2.tmx";
+			App->map->Load("JAIL.tmx");
+			current_map = "JAIL.tmx";
 		}
 		else {
 			App->map->Load("untitled.tmx");

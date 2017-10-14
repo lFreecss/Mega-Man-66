@@ -90,6 +90,9 @@ bool j1Player::Update(float dt) {
 		jumping = true;
 	else
 		jumping = false;
+
+	if (jumping == false)
+		current_animation = &jumpR;
 	
 
 	SDL_Rect r = current_animation->GetCurrentFrame();
@@ -146,7 +149,7 @@ bool j1Player::jump(float dt) {
 }
 
 void j1Player::move(float dt) {
-	float speed = 3.8;
+	float speed = 25.0;
 
 	/*if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
 		position.y += speed;
@@ -165,8 +168,8 @@ void j1Player::move(float dt) {
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		current_animation = &right;
 		pos.x += speed*dt;
-		if (pos.x > 1470)
-			pos.x = 1470;
+		if (pos.x > 760)
+			pos.x = 760;
 	}
 
 }
