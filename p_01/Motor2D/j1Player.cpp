@@ -10,7 +10,30 @@
 
 j1Player::j1Player() {
 
-	idle.PushBack({ 323, 17, 30, 34 });
+	//Mega Man
+	idle.PushBack({ 103, 10, 21, 24 });
+	idle.PushBack({ 103, 10, 21, 24 });
+	idle.PushBack({ 103, 10, 21, 24 });
+	idle.PushBack({ 133, 10, 21, 24 });
+	idle.PushBack({ 103, 10, 21, 24 });
+	idle.PushBack({ 103, 10, 21, 24 });
+	idle.PushBack({ 103, 10, 21, 24 });
+	idle.speed = 0.04f;
+
+	right.PushBack({ 188, 10, 24, 24 });
+	right.PushBack({ 218, 10, 21, 24 });
+	right.PushBack({ 239, 10, 21, 24 });
+	right.speed = 0.01f;
+
+	left.PushBack({ 281, 86, 24, 24 });
+	left.PushBack({ 259, 86, 21, 24 });
+	left.PushBack({ 233, 86, 21, 24 });
+	left.speed = 0.01f;
+
+	jumpR.PushBack({ 265, 4, 27, 30 });
+	jumpR.speed = 0.001f;
+	//Mega Man X
+	/*idle.PushBack({ 323, 17, 30, 34 });
 	idle.PushBack({ 357, 17, 30, 34 });
 	idle.PushBack({ 391, 17, 30, 34 });
 	idle.PushBack({ 323, 17, 30, 34 });
@@ -28,7 +51,7 @@ j1Player::j1Player() {
 	right.PushBack({ 298, 107, 30, 34 });
 	right.PushBack({ 326, 107, 30, 34 });
 	right.PushBack({ 391, 107, 30, 34 });
-	right.speed = 0.11f;
+	right.speed = 0.11f;*/
 
 }
 
@@ -39,7 +62,8 @@ j1Player::~j1Player()
 bool j1Player::Start() {
 	bool ret = true;
 
-	graphics = App->tex->Load("textures/mmx_xsheet.png");
+	//graphics = App->tex->Load("textures/mmx_xsheet.png");
+	graphics = App->tex->Load("textures/8bitmegaman.png");
 	if (LoadPlayer() == false)
 		ret = false;
 
@@ -132,6 +156,7 @@ void j1Player::move(float dt) {
 	}
 */
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+		current_animation = &left;
 		pos.x -= speed*dt;
 		if (pos.x < 0) {
 			pos.x = 0;
@@ -144,4 +169,24 @@ void j1Player::move(float dt) {
 			pos.x = 1470;
 	}
 
+}
+
+// Load player position
+bool j1Player::Load(pugi::xml_node& data)
+{
+	pos.x = data.child("position").attribute("x").as_float();
+	pos.y = data.child("position").attribute("y").as_float();
+
+	return true;
+}
+
+// Save player position
+bool j1Player::Save(pugi::xml_node& data) const
+{
+	pugi::xml_node position = data.append_child("position");
+
+	position.append_attribute("x") = pos.x;
+	position.append_attribute("y") = pos.y;
+
+	return true;
 }

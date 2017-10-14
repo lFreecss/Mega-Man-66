@@ -1,12 +1,10 @@
-﻿  j1Map.cpp
-  Generando código...
-  Compilando...
-  j1Scene.cpp
-  j1Player.cpp
-c:\users\princesa\documents\github\dev-assignment1\p_01\motor2d\j1player.cpp(63): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-c:\users\princesa\documents\github\dev-assignment1\p_01\motor2d\j1player.cpp(72): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-c:\users\princesa\documents\github\dev-assignment1\p_01\motor2d\j1player.cpp(125): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
+﻿  j1Player.cpp
+c:\users\david\documents\github\mega-man-66\p_01\motor2d\j1player.cpp(87): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\david\documents\github\mega-man-66\p_01\motor2d\j1player.cpp(96): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\david\documents\github\mega-man-66\p_01\motor2d\j1player.cpp(149): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
   j1App.cpp
   Generando código...
-  Motor2D.vcxproj -> C:\Users\Princesa\Documents\GitHub\Dev-Assignment1\p_01\Debug\Motor 2D.exe
-  Motor2D.vcxproj -> C:\Users\Princesa\Documents\GitHub\Dev-Assignment1\p_01\Debug\Motor 2D.pdb (Partial PDB)
+  Omitiendo... (no se detectaron cambios relevantes)
+  j1Scene.cpp
+  Motor2D.vcxproj -> C:\Users\David\Documents\GitHub\Mega-Man-66\p_01\Debug\Motor 2D.exe
+  Motor2D.vcxproj -> C:\Users\David\Documents\GitHub\Mega-Man-66\p_01\Debug\Motor 2D.pdb (Partial PDB)

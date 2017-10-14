@@ -22,6 +22,9 @@ public:
 	bool jump(float dt);
 	void move(float dt);
 
+	// Load / Save
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 
 	fPoint pos;
 private:
@@ -29,6 +32,8 @@ private:
 	Animation* current_animation;
 	Animation idle;
 	Animation right;
+	Animation left;
+	Animation jumpR;
 	SDL_Texture* graphics = nullptr;
 
 	int floor;
