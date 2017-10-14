@@ -11,7 +11,9 @@
 
 
 
-j1FadeToBlack::j1FadeToBlack() {}
+j1FadeToBlack::j1FadeToBlack() : j1Module() {
+	name.create("fade");
+}
 
 j1FadeToBlack::~j1FadeToBlack() {}
 

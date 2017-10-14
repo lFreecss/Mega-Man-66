@@ -32,9 +32,23 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	//Change map
+	void ChangeMaps(const char*);
+
+	//Start from 1st level
+	void Restart();
+
+	//Start from 1st level
+	void MapStart();
+
+	// Load / Save
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+
 private:
 	bool gate = true;
 	p2SString current_map;
+	int map_num;
 };
 
 #endif // __j1SCENE_H__

@@ -8,7 +8,8 @@
 #include "j1map.h"
 
 
-j1Player::j1Player() {
+j1Player::j1Player() : j1Module() {
+	name.create("player");
 
 	//Mega Man
 	idle.PushBack({ 103, 10, 21, 24 });

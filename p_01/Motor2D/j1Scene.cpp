@@ -35,6 +35,10 @@ bool j1Scene::Start()
 	p2SString map_name("%s%s", App->map_name.GetString(), ".tmx");
 	App->map->Load(map_name.GetString());
 	current_map = map_name;
+	if (map_name == "rock_level.tmx")
+		map_num = 0;
+	if (map_name == "JAIL.tmx")
+		map_num = 1;
 	return true;
 }
 
@@ -47,11 +51,22 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		App->LoadGame();
+		if (map_num == 0)
+			ChangeMaps("rock_level.tmx");
+		if (map_num == 1)
+			ChangeMaps("JAIL.tmx");
+	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		Restart();
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		MapStart();
 
 	if(App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
 		App->render->camera.y -= 1;
@@ -88,34 +103,37 @@ bool j1Scene::Update(float dt)
 		gate = false;
 	}
 
+	//Change maps at the end of the level
 	if (App->player->pos.x >= 740) {
-		App->player->pos.x = 60.0;
-		App->render->camera.x = 0;
-		
-		App->map->CleanUp();
+		MapStart();
+
 		if (current_map == "rock_level.tmx") {
-			App->map->Load("JAIL.tmx");
-			current_map = "JAIL.tmx";
+			ChangeMaps("JAIL.tmx");
+			map_num = 1;
 		}
+
 		else {
-			App->map->Load("rock_level.tmx");
-			current_map = "rock_level.tmx";
+			ChangeMaps("rock_level.tmx");
+			map_num = 0;
 		}
+
 	}
 
+	//Change maps with SPACE (for testing)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-			App->map->CleanUp();
+
 		if (current_map == "rock_level.tmx") {
-			App->map->Load("JAIL.tmx");
-			current_map = "JAIL.tmx";
+			ChangeMaps("JAIL.tmx");
+			map_num = 1;
 		}
+
 		else {
-			App->map->Load("rock_level.tmx");
-			current_map = "rock_level.tmx";
+			ChangeMaps("rock_level.tmx");
+			map_num = 0;
 		}
-		//App->fade->FadeToBlack(this, this, 1);
-	}
+
 		
+	}
 
 	return true;
 }
@@ -135,6 +153,46 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	return true;
+}
+
+void j1Scene::ChangeMaps(const char* map_name) {
+	//App->fade->FadeToBlack(this, this, 1);
+	App->map->CleanUp();
+	App->map->Load(map_name);
+	current_map = map_name;
+}
+
+void j1Scene::Restart() {
+	ChangeMaps("rock_level.tmx");
+	App->render->camera.x = 0;
+	App->render->camera.x = 0;
+	App->player->pos.x = 60.0;
+	App->player->pos.y = 184.0;
+}
+
+void j1Scene::MapStart() {
+	App->render->camera.x = 0;
+	App->render->camera.x = 0;
+	App->player->pos.x = 60.0;
+	App->player->pos.y = 184.0;
+}
+
+//Load map
+bool j1Scene::Load(pugi::xml_node& data)
+{
+	map_num = data.child("map").attribute("name").as_int();
+
+	return true;
+}
+
+// Save map 
+bool j1Scene::Save(pugi::xml_node& data) const
+{
+	pugi::xml_node map = data.append_child("map");
+
+	map.append_attribute("name") = map_num;
 
 	return true;
 }
