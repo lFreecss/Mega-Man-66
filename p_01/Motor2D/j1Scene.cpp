@@ -93,25 +93,25 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x = 0;
 		
 		App->map->CleanUp();
-		if (current_map == "untitled.tmx") {
+		if (current_map == "rock_level.tmx") {
 			App->map->Load("JAIL.tmx");
 			current_map = "JAIL.tmx";
 		}
 		else {
-			App->map->Load("untitled.tmx");
-			current_map = "untitled.tmx";
+			App->map->Load("rock_level.tmx");
+			current_map = "rock_level.tmx";
 		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			App->map->CleanUp();
-		if (current_map == "untitled.tmx") {
+		if (current_map == "rock_level.tmx") {
 			App->map->Load("JAIL.tmx");
 			current_map = "JAIL.tmx";
 		}
 		else {
-			App->map->Load("untitled.tmx");
-			current_map = "untitled.tmx";
+			App->map->Load("rock_level.tmx");
+			current_map = "rock_level.tmx";
 		}
 		//App->fade->FadeToBlack(this, this, 1);
 	}

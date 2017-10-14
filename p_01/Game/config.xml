@@ -25,8 +25,8 @@
 
   <map>
     <folder>maps/</folder>
-	  <file name="JAIL" loaded="1"/>
-	  <file name="untitled" loaded="0"/>
+	  <file name="rock_level" loaded="1"/>
+	  <file name="JAIL" loaded="0"/>
   </map>
 
 </config>
