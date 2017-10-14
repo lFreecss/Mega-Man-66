@@ -1,0 +1,32 @@
+<!-- Config file for the game -->
+
+<config>
+  <app>
+    <title>Game Development Testbed</title>
+    <organization>UPC</organization>
+  </app>
+	
+  <renderer>
+    <vsync value="false"/>
+  </renderer>
+
+  <window>
+    <resolution width="1920" height="1080" scale="3"/>
+    <!-- <resolution width="640" height="450" scale="2"/>-->
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+  </window>
+
+  <file_system>
+    <path>data.zip</path>
+  </file_system>
+
+  <map>
+    <folder>maps/</folder>
+	  <file name="JAIL" loaded="1"/>
+	  <file name="untitled" loaded="0"/>
+  </map>
+
+</config>

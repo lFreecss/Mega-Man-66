@@ -1,0 +1,3 @@
+fast pulse: https://opengameart.org/content/fast-pulse
+megaman: http://www.sprites-inc.co.uk/sprite.php?local=/X/X/X1-X3/
+megaman bg: http://www.sprites-inc.co.uk/sprite.php?local=X/X1/Backgrounds/

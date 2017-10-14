@@ -1,0 +1,7 @@
+<player>
+
+	<positions positionx = "100.0" positiony = "175.0" floor = "175"/>
+	<physics velocityx = "0" velocityy = "0" gravity = "600.0"/>
+	<movement jumping = "0" jumpvel= "-21750.0"/>
+
+</player>
