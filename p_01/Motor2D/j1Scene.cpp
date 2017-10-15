@@ -11,6 +11,7 @@
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -56,45 +57,41 @@ bool j1Scene::Update(float dt)
 	if (map_num == 1 && current_map != "JAIL.tmx")
 		ChangeMaps("JAIL.tmx");
 
-	//Load State
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) 
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame();
 
-	//Save State
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
 
-	//Start from the first level
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		Restart();
 
-	//Start from the start of the level
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		MapStart();
 
-	if(App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT)
 		App->render->camera.y -= 1;
 
-	if(App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_REPEAT)
 		App->render->camera.y += 1;
 
-	if(App->input->GetKey(SDL_SCANCODE_H) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_REPEAT)
 		App->render->camera.x -= 1;
 
-	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
 		App->render->camera.x += 1;
 
 	App->map->Draw();
 
 	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
-					App->map->data.width, App->map->data.height,
-					App->map->data.tile_width, App->map->data.tile_height,
-					App->map->data.tilesets.count());
+		App->map->data.width, App->map->data.height,
+		App->map->data.tile_width, App->map->data.tile_height,
+		App->map->data.tilesets.count());
 
 	App->win->SetTitle(title.GetString());
 
 	//Scroll
-	
+
 	if (App->player->pos.x > App->render->camera.x + 200 && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->render->camera.x != -1070) {
 
 		App->render->camera.x -= 1;
@@ -107,9 +104,9 @@ bool j1Scene::Update(float dt)
 		gate = false;
 	}
 
-	//Change maps at the end of the level
 	if (App->player->pos.x >= 740) {
-		MapStart();
+		App->player->pos.x = 60.0;
+		App->render->camera.x = 0;
 
 		if (current_map == "rock_level.tmx") {
 			ChangeMaps("JAIL.tmx");
@@ -123,7 +120,6 @@ bool j1Scene::Update(float dt)
 
 	}
 
-	//Change maps with SPACE (for testing)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 
 		if (current_map == "rock_level.tmx") {
@@ -136,8 +132,8 @@ bool j1Scene::Update(float dt)
 			map_num = 0;
 		}
 
-		
 	}
+
 
 	return true;
 }
@@ -147,7 +143,7 @@ bool j1Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
 	return ret;
@@ -177,13 +173,12 @@ void j1Scene::Restart() {
 }
 
 void j1Scene::MapStart() {
-	App->render->camera.x = App->player->startPos.x;
-	App->render->camera.x = App->player->startPos.y;
+	App->render->camera.x = 0;
+	App->render->camera.x = 0;
 	App->player->pos.x = App->player->startPos.x;
 	App->player->pos.y = App->player->startPos.y;
 }
 
-//Load map
 bool j1Scene::Load(pugi::xml_node& data)
 {
 	map_num = data.child("map").attribute("name").as_int();
@@ -191,7 +186,7 @@ bool j1Scene::Load(pugi::xml_node& data)
 	return true;
 }
 
-// Save map 
+// Save player position
 bool j1Scene::Save(pugi::xml_node& data) const
 {
 	pugi::xml_node map = data.append_child("map");
