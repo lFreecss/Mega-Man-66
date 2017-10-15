@@ -68,6 +68,16 @@ iPoint j1Map::MapToWorld(int x, int y) const
 	return ret;
 }
 
+iPoint j1Map::WorldToMap(int x, int y) const
+{
+	iPoint ret;
+
+	ret.x = x / data.tile_width;
+	ret.y = y / data.tile_height;
+
+	return ret;
+}
+
 SDL_Rect TileSet::GetTileRect(int id) const
 {
 	int relative_id = id - firstgid;
@@ -103,6 +113,16 @@ bool j1Map::CleanUp()
 		item0 = item0->next;
 	}
 	data.layers.clear();
+
+	p2List_item<map_layer*>* item1;
+	item1 = data.collisions.start;
+	while (item1 != NULL) {
+		RELEASE(item1->data);
+		item1 = item1->next;
+	}
+	data.collisions.clear();
+
+	data.objects.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -157,10 +177,20 @@ bool j1Map::Load(const char* file_name)
 		if (ret == true)
 			ret = LoadLayer(layer, layer0);
 
-		if (layer0->name == "Collisions")
+		if (layer0->name == "Collision")
 			data.collisions.add(layer0);
 		else
 			data.layers.add(layer0);
+	}
+
+	pugi::xml_node mapObject;
+	for (mapObject = map_file.child("map").child("objectgroup"); mapObject && ret; mapObject = mapObject.next_sibling("objectgroup")) {
+		map_object* object0 = new map_object();
+
+		if (ret == true)
+			ret = LoadObject(mapObject, object0);
+
+		data.objects.add(object0);
 	}
 
 
@@ -325,6 +355,27 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
+bool j1Map::LoadObject(pugi::xml_node& node, map_object* object)
+{
+	bool ret = true;
+	if (node == NULL) {
+		LOG("Could not load Object");
+		ret = false;
+	}
+
+	else {
+		object->name = node.attribute("name").as_string();
+		for (pugi::xml_node object_node = node.child("object"); object_node; object_node = object_node.next_sibling("object")) {
+			object->id = object_node.attribute("id").as_uint();
+			object->x = object_node.attribute("x").as_uint();
+			object->y = object_node.attribute("y").as_uint();
+			object->width = object_node.attribute("width").as_uint();
+			object->height = object_node.attribute("height").as_uint();
+		}
+	}
+	return ret;
+}
+
 bool j1Map::LoadLayer(pugi::xml_node& node, map_layer* layer)
 {
 	bool ret = true;
@@ -350,3 +401,29 @@ bool j1Map::LoadLayer(pugi::xml_node& node, map_layer* layer)
 	}
 	return ret;
 }
+bool j1Map::CollisionX(uint x, uint y_up, uint y_down)
+{
+	if (x < 0 || x > data.width)
+		return true;
+	p2List_item<map_layer*>* collisions = data.collisions.start;
+	for (uint y = y_up; y <= y_down; y++)
+	{
+		if (collisions->data->Get(x, y) != 0)
+			return true;
+	}
+	return false;
+}
+
+bool j1Map::CollisionY(uint x_left, uint x_right, uint y)
+{
+	p2List_item<map_layer*>* collisions = data.collisions.start;
+	if (y < 0 || y > data.height)
+		return true;
+	for (uint x = x_left; x <= x_right; x++)
+	{
+		if (collisions->data->Get(x, y) != 0)
+			return true;
+	}
+	return false;
+}
+	

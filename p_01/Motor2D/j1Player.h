@@ -28,6 +28,10 @@ public:
 
 	fPoint startPos;
 	fPoint pos;
+
+	// Collisions
+	iPoint size;
+
 private:
 	
 	Animation* current_animation;

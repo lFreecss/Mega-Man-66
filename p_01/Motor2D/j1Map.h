@@ -21,6 +21,15 @@ struct map_layer {
 	inline uint Get(int x, int y)const;
 };
 
+struct map_object {
+	p2SString name = nullptr;
+	uint id = 0;
+	uint x = 0;
+	uint y = 0;
+	uint width = 0;
+	uint height = 0;
+};
+
 struct TileSet
 {
 	
@@ -63,6 +72,7 @@ struct MapData
 	p2List<TileSet*>	tilesets;
 	p2List<map_layer*> layers;
 	p2List<map_layer*> collisions;
+	p2List<map_object*> objects;
 };
 
 
@@ -90,6 +100,13 @@ public:
 	// Coordinates map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
 
+	// Coordinates world positions to map positions
+	iPoint WorldToMap(int x, int y) const;
+
+	//Collision Detector
+	bool CollisionX(uint x, uint y_up, uint y_down);
+	bool CollisionY(uint x_left, uint x_right, uint y);
+
 private:
 
 	bool LoadMap();
@@ -97,6 +114,8 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 
 	bool LoadLayer(pugi::xml_node& node, map_layer* layer);
+	bool LoadObject(pugi::xml_node& node, map_object* layer);
+
 
 
 public:

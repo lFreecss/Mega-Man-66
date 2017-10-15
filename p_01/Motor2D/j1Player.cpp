@@ -80,7 +80,7 @@ bool j1Player::Update(float dt) {
 	current_animation = &idle;
 	
 	vel.y += g * dt;
-	pos.y += vel.y * dt;
+	//pos.y += vel.y * dt;
 	pos.x += vel.x * dt;
 
 	move(dt);
@@ -120,8 +120,12 @@ bool j1Player::LoadPlayer() {
 		ret = false;
 	}
 	else {
-		startPos.x = player.child("positions").attribute("positionx").as_float();
-		startPos.y = player.child("positions").attribute("positiony").as_float();
+		p2List_item<map_object*>* object = App->map->data.objects.start;
+		startPos.x = object->data->x; 
+		startPos.y = object->data->y;
+
+		//startPos.x = player.child("positions").attribute("positionx").as_float();
+		//startPos.y = player.child("positions").attribute("positiony").as_float();
 		floor = player.child("positions").attribute("floor").as_int();
 
 		vel.x = player.child("physics").attribute("velocityx").as_float();
@@ -131,6 +135,8 @@ bool j1Player::LoadPlayer() {
 		jumping = player.child("movement").attribute("jumping").as_bool();
 		jumpVelY = player.child("movement").attribute("jumpvel").as_float();
 
+		size.x = 22;
+		size.y = 22;
 	}
 
 	return ret;
@@ -161,6 +167,14 @@ void j1Player::move(float dt) {
 		}
 	}
 */
+
+	iPoint posWorld = App->map->WorldToMap(pos.x, pos.y);
+	iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
+	/*pos.y += vel.y *dt;
+	if (App->map->CollisionY(posWorld.x,endPosWorld.x, endPosWorld.y + 1)) {
+	pos.y -= vel.y *dt;
+	}*/
+
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		current_animation = &left;
 		pos.x -= speed*dt;
@@ -171,8 +185,11 @@ void j1Player::move(float dt) {
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		current_animation = &right;
 		pos.x += speed*dt;
-		if (pos.x > 760)
-			pos.x = 760;
+		if (App->map->CollisionX(endPosWorld.x, posWorld.y, endPosWorld.y)) {
+			pos.x -= speed*dt;
+		}
+		//if (pos.x > 760)
+			//pos.x = 760;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		current_animation = &idle;
