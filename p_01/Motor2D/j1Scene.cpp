@@ -36,10 +36,8 @@ bool j1Scene::Start()
 	p2SString map_name("%s%s", App->map_name.GetString(), ".tmx");
 	App->map->Load(map_name.GetString());
 	current_map = map_name;
-	if (map_name == "rock_level.tmx")
-		map_num = 0;
-	if (map_name == "JAIL.tmx")
-		map_num = 1;
+	InitializeMap();
+	App->audio->PlayMusic("audio/music/Armored Armadillo.ogg");
 	return true;
 }
 
@@ -91,13 +89,7 @@ bool j1Scene::Update(float dt)
 	App->win->SetTitle(title.GetString());
 
 	//Scroll
-	/*uint h, w;
-	App->win->GetWindowSize(w, h);
-	w = 640;
-	App->render->camera.x = 1070 - App->player->pos.x - (w / 2);
-	if (App->render->camera.x < -1070)
-		App->render->camera.x = -1070;
-	*/
+
 	if (App->player->pos.x > App->render->camera.x + 200 && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->render->camera.x != -1070) {
 
 		App->render->camera.x -= 1;
@@ -110,19 +102,13 @@ bool j1Scene::Update(float dt)
 		gate = false;
 	}
 
-	if (App->player->pos.x >= 740) {
-		App->player->pos.x = 60.0;
-		App->render->camera.x = 0;
-
-
+	if (App->player->pos.x >= App->map->data.tile_width*App->map->data.width - 30) {
 		if (current_map == "rock_level.tmx") {
 			ChangeMaps("JAIL.tmx");
-			map_num = 1;
 		}
 
 		else {
 			ChangeMaps("rock_level.tmx");
-			map_num = 0;
 		}
 
 	}
@@ -131,12 +117,10 @@ bool j1Scene::Update(float dt)
 
 		if (current_map == "rock_level.tmx") {
 			ChangeMaps("JAIL.tmx");
-			map_num = 1;
 		}
 
 		else {
 			ChangeMaps("rock_level.tmx");
-			map_num = 0;
 		}
 
 	}
@@ -165,11 +149,20 @@ bool j1Scene::CleanUp()
 }
 
 void j1Scene::ChangeMaps(const char* map_name) {
-	//App->fade->FadeToBlack(this, this, 1);
 	App->map->CleanUp();
 	App->map->Load(map_name);
 	current_map = map_name;
+	InitializeMap();
 	MapStart();
+}
+
+void j1Scene::InitializeMap() {
+	if (current_map == "rock_level.tmx") {
+		map_num = 0;
+	}
+	if (current_map == "JAIL.tmx") {
+		map_num = 1;
+	}
 }
 
 void j1Scene::Restart() {

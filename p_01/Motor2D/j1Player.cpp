@@ -33,26 +33,13 @@ j1Player::j1Player() : j1Module() {
 
 	jumpR.PushBack({ 265, 4, 27, 30 });
 	jumpR.speed = 0.001f;
-	//Mega Man X
-	/*idle.PushBack({ 323, 17, 30, 34 });
-	idle.PushBack({ 357, 17, 30, 34 });
-	idle.PushBack({ 391, 17, 30, 34 });
-	idle.PushBack({ 323, 17, 30, 34 });
-	idle.PushBack({ 323, 17, 30, 34 });
-	idle.PushBack({ 323, 17, 30, 34 });
-	idle.speed = 0.04f;
 
-	right.PushBack({ 106, 107, 30, 34 });
-	right.PushBack({ 132, 107, 30, 34 });
-	right.PushBack({ 157, 107, 30, 34 });
-	right.PushBack({ 181, 107, 30, 34 });
-	right.PushBack({ 213, 107, 30, 34 });
-	right.PushBack({ 247, 107, 30, 34 });
-	right.PushBack({ 274, 107, 30, 34 });
-	right.PushBack({ 298, 107, 30, 34 });
-	right.PushBack({ 326, 107, 30, 34 });
-	right.PushBack({ 391, 107, 30, 34 });
-	right.speed = 0.11f;*/
+	sJump.PushBack({ 206, 209, 26, 30 });
+	sJump.PushBack({ 239, 209, 26, 30 });
+	sJump.PushBack({ 266, 209, 26, 30 });
+	sJump.PushBack({ 297, 209, 26, 30 });
+	sJump.PushBack({ 206, 209, 26, 30 });
+	sJump.speed = 0.04f;
 
 }
 
@@ -76,7 +63,7 @@ bool j1Player::Start() {
 void j1Player::Init() {
 	pos = startPos;
 
-	jumping = false;
+	jumping = 1;
 	actualJumpframes = 0;
 }
 
@@ -89,8 +76,11 @@ bool j1Player::Update(float dt) {
 	move(dt);
 	jump(dt);
 
-	if (jumping)
+	
+	if (jumping == 1)
 		current_animation = &jumpR;
+	if (jumping == 0)
+		current_animation = &sJump;
 
 
 	SDL_Rect r = current_animation->GetCurrentFrame();
@@ -115,9 +105,6 @@ bool j1Player::LoadPlayer() {
 		ret = false;
 	}
 	else {
-		//p2List_item<map_object*>* object = App->map->data.objects.start;
-		//startPos.x = object->data->x; 
-		//startPos.y = object->data->y;
 
 		vel.x = player.child("physics").attribute("velocityx").as_float();
 		vel.y = player.child("physics").attribute("velocityy").as_float();
@@ -137,7 +124,6 @@ void j1Player::jump(float dt) {
 	if (actualJumpframes > 0) {
 		++actualJumpframes;
 		if (actualJumpframes > jumpframes) {
-			jumping = false;
 			actualJumpframes = 0;
 		}
 		else {
@@ -155,15 +141,12 @@ void j1Player::jump(float dt) {
 	iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
 	if (App->map->CollisionY(posWorld.x, endPosWorld.x, endPosWorld.y)) {
 		pos.y -= gravity*dt;
-		jumping = false;
-	}
-	else {
-		jumping = true;
+		jumping = 2;
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN) {
-		if (!jumping) {
-			jumping = true;
+		if (jumping > 0) {
+			jumping --;
 			actualJumpframes = 1;
 		}
 	}

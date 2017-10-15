@@ -1,3 +1,14 @@
 ﻿  j1Scene.cpp
+  j1Player.cpp
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(87): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(131): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(132): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(140): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(141): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(162): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(163): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(171): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\princesa\documents\copy\mega-man-66\p_01\motor2d\j1player.cpp(172): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
+  Generando código...
   Motor2D.vcxproj -> C:\Users\Princesa\Documents\Copy\Mega-Man-66\p_01\Debug\Motor 2D.exe
   Motor2D.vcxproj -> C:\Users\Princesa\Documents\Copy\Mega-Man-66\p_01\Debug\Motor 2D.pdb (Partial PDB)

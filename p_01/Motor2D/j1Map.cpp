@@ -75,7 +75,10 @@ iPoint j1Map::WorldToMap(int x, int y) const
 {
 	iPoint ret;
 
-	ret.x = x / data.tile_width;
+	if (x < 0)
+		ret.x = -1;
+	else
+		ret.x = x / data.tile_width;
 	ret.y = y / data.tile_height;
 
 	return ret;
@@ -408,7 +411,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, map_layer* layer)
 }
 bool j1Map::CollisionX(uint x, uint y_up, uint y_down)
 {
-	if (x <= 0 || x > data.width)
+	if (x < 0 || x > data.width)
 		return true;
 	p2List_item<map_layer*>* collisions = data.collisions.start;
 	for (uint y = y_up; y <= y_down; y++)

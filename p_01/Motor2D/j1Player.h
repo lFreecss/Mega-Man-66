@@ -41,13 +41,14 @@ private:
 	Animation right;
 	Animation left;
 	Animation jumpR;
+	Animation sJump;
 	SDL_Texture* graphics = nullptr;
 
 	int floor;
 	fPoint vel;
 	float gravity;
 
-	bool jumping;
+	int jumping;
 	uint jumpframes;
 	uint actualJumpframes;
 

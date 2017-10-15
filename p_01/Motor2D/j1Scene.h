@@ -41,6 +41,9 @@ public:
 	//Start from actual level
 	void MapStart();
 
+	//Restart map id
+	void InitializeMap();
+
 	// Load / Save
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
