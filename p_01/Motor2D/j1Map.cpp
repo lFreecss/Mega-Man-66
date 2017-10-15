@@ -386,6 +386,7 @@ bool j1Map::LoadObject(pugi::xml_node& node, map_object* object)
 
 bool j1Map::LoadLayer(pugi::xml_node& node, map_layer* layer)
 {
+	// Read all tiled layers to paint it, TO DO Valdivia
 	bool ret = true;
 	if (node == NULL) {
 		LOG("Could not load layer");
@@ -409,6 +410,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, map_layer* layer)
 	}
 	return ret;
 }
+// Add collisions to the maps, TO DO Varela
 bool j1Map::CollisionX(uint x, uint y_up, uint y_down)
 {
 	if (x < 0 || x > data.width)

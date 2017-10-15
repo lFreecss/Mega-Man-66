@@ -153,6 +153,7 @@ void j1Player::jump(float dt) {
 	
 }
 //Function that allows the player to move right and left, TODO Valdivia
+//taking into account collisions, TODO Varela
 void j1Player::move(float dt) {
 
 
