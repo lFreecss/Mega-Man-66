@@ -51,20 +51,24 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-		App->LoadGame();
-		if (map_num == 0)
-			ChangeMaps("rock_level.tmx");
-		if (map_num == 1)
-			ChangeMaps("JAIL.tmx");
-	}
+	if (map_num == 0 && current_map != "rock_level.tmx")
+		ChangeMaps("rock_level.tmx");
+	if (map_num == 1 && current_map != "JAIL.tmx")
+		ChangeMaps("JAIL.tmx");
 
+	//Load State
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) 
+		App->LoadGame();
+
+	//Save State
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
 
+	//Start from the first level
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		Restart();
 
+	//Start from the start of the level
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		MapStart();
 
@@ -168,15 +172,15 @@ void j1Scene::Restart() {
 	ChangeMaps("rock_level.tmx");
 	App->render->camera.x = 0;
 	App->render->camera.x = 0;
-	App->player->pos.x = 60.0;
-	App->player->pos.y = 184.0;
+	App->player->pos.x = App->player->startPos.x;
+	App->player->pos.y = App->player->startPos.y;
 }
 
 void j1Scene::MapStart() {
-	App->render->camera.x = 0;
-	App->render->camera.x = 0;
-	App->player->pos.x = 60.0;
-	App->player->pos.y = 184.0;
+	App->render->camera.x = App->player->startPos.x;
+	App->render->camera.x = App->player->startPos.y;
+	App->player->pos.x = App->player->startPos.x;
+	App->player->pos.y = App->player->startPos.y;
 }
 
 //Load map

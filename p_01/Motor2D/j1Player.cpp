@@ -24,12 +24,12 @@ j1Player::j1Player() : j1Module() {
 	right.PushBack({ 188, 10, 24, 24 });
 	right.PushBack({ 218, 10, 21, 24 });
 	right.PushBack({ 239, 10, 21, 24 });
-	right.speed = 0.01f;
+	right.speed = 0.04f;
 
 	left.PushBack({ 281, 86, 24, 24 });
 	left.PushBack({ 259, 86, 21, 24 });
 	left.PushBack({ 233, 86, 21, 24 });
-	left.speed = 0.01f;
+	left.speed = 0.04f;
 
 	jumpR.PushBack({ 265, 4, 27, 30 });
 	jumpR.speed = 0.001f;
@@ -67,6 +67,8 @@ bool j1Player::Start() {
 	graphics = App->tex->Load("textures/8bitmegaman.png");
 	if (LoadPlayer() == false)
 		ret = false;
+
+	pos = startPos;
 
 	return ret;
 }
@@ -118,8 +120,8 @@ bool j1Player::LoadPlayer() {
 		ret = false;
 	}
 	else {
-		pos.x = player.child("positions").attribute("positionx").as_float();
-		pos.y = player.child("positions").attribute("positiony").as_float();
+		startPos.x = player.child("positions").attribute("positionx").as_float();
+		startPos.y = player.child("positions").attribute("positiony").as_float();
 		floor = player.child("positions").attribute("floor").as_int();
 
 		vel.x = player.child("physics").attribute("velocityx").as_float();
@@ -172,7 +174,8 @@ void j1Player::move(float dt) {
 		if (pos.x > 760)
 			pos.x = 760;
 	}
-
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		current_animation = &idle;
 }
 
 // Load player position
