@@ -1,7 +1,6 @@
 <player>
 
-	<positions positionx = "60.0" positiony = "184.0" floor = "184"/>
-	<physics velocityx = "0" velocityy = "0" gravity = "600.0"/>
-	<movement jumping = "0" jumpvel= "-21750.0"/>
+	<physics velocityx = " 25.0" velocityy = "50.0" gravity = "17.0"/>
+	<movement jumpframes= "80"/>
 
 </player>

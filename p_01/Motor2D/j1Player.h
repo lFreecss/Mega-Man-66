@@ -16,10 +16,11 @@ public:
 	~j1Player();
 
 	bool Start();
+	void Init();
 	bool Update(float dt);
 
 	bool LoadPlayer();
-	bool jump(float dt);
+	void jump(float dt);
 	void move(float dt);
 
 	// Load / Save
@@ -31,6 +32,7 @@ public:
 
 	// Collisions
 	iPoint size;
+	iPoint sizeJump;
 
 private:
 	
@@ -43,10 +45,11 @@ private:
 
 	int floor;
 	fPoint vel;
-	float g;
+	float gravity;
 
 	bool jumping;
-	float jumpVelY;
+	uint jumpframes;
+	uint actualJumpframes;
 
 	pugi::xml_document	player_file;
 

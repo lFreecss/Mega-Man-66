@@ -91,7 +91,13 @@ bool j1Scene::Update(float dt)
 	App->win->SetTitle(title.GetString());
 
 	//Scroll
-
+	/*uint h, w;
+	App->win->GetWindowSize(w, h);
+	w = 640;
+	App->render->camera.x = 1070 - App->player->pos.x - (w / 2);
+	if (App->render->camera.x < -1070)
+		App->render->camera.x = -1070;
+	*/
 	if (App->player->pos.x > App->render->camera.x + 200 && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->render->camera.x != -1070) {
 
 		App->render->camera.x -= 1;

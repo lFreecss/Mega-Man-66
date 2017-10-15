@@ -11,8 +11,8 @@
   </renderer>
 
   <window>
-	  <resolution width="1280" height="720" scale="3"/>
-    <!-- <resolution width="640" height="450" scale="2"/>-->
+    <resolution width="1280" height="720" scale="3"/>
+    <!-- <resolution width="640" height="480" scale="2"/>-->
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -26,7 +26,7 @@
   <map>
     <folder>maps/</folder>
     <file name="JAIL" loaded="1"/>
-	  <file name="rock_level" loaded="0"/>	  
+	  <file name="rock_level" loaded="0"/>a	  
   </map>
 
 </config>

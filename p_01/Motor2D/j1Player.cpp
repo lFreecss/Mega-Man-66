@@ -68,9 +68,16 @@ bool j1Player::Start() {
 	if (LoadPlayer() == false)
 		ret = false;
 
-	pos = startPos;
+	Init();
 
 	return ret;
+}
+
+void j1Player::Init() {
+	pos = startPos;
+
+	jumping = false;
+	actualJumpframes = 0;
 }
 
 
@@ -78,25 +85,13 @@ bool j1Player::Update(float dt) {
 	bool ret = true;
 
 	current_animation = &idle;
-	
-	vel.y += g * dt;
-	//pos.y += vel.y * dt;
-	pos.x += vel.x * dt;
 
 	move(dt);
 	jump(dt);
 
-	if (pos.y >= floor)
-		pos.y = floor;
-
-	if (pos.y == floor)
-		jumping = true;
-	else
-		jumping = false;
-
-	if (jumping == false)
+	if (jumping)
 		current_animation = &jumpR;
-	
+
 
 	SDL_Rect r = current_animation->GetCurrentFrame();
 	App->render->Blit(graphics, pos.x, pos.y, &r);
@@ -124,16 +119,11 @@ bool j1Player::LoadPlayer() {
 		startPos.x = object->data->x; 
 		startPos.y = object->data->y;
 
-		//startPos.x = player.child("positions").attribute("positionx").as_float();
-		//startPos.y = player.child("positions").attribute("positiony").as_float();
-		floor = player.child("positions").attribute("floor").as_int();
-
 		vel.x = player.child("physics").attribute("velocityx").as_float();
 		vel.y = player.child("physics").attribute("velocityy").as_float();
-		g = player.child("physics").attribute("gravity").as_float();
+		gravity = player.child("physics").attribute("gravity").as_float();
 
-		jumping = player.child("movement").attribute("jumping").as_bool();
-		jumpVelY = player.child("movement").attribute("jumpvel").as_float();
+		jumpframes = player.child("movement").attribute("jumpframes").as_uint();
 
 		size.x = 22;
 		size.y = 22;
@@ -142,55 +132,66 @@ bool j1Player::LoadPlayer() {
 	return ret;
 }
 
-bool j1Player::jump(float dt) {
-	bool ret = true;
-
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN) {
-		if (jumping) {
-			vel.y = jumpVelY * dt;
-			ret = true;
+void j1Player::jump(float dt) {
+		
+	if (actualJumpframes > 0) {
+		++actualJumpframes;
+		if (actualJumpframes > jumpframes) {
+			jumping = false;
+			actualJumpframes = 0;
 		}
-		else
-			ret = false;
+		else {
+			pos.y -= vel.y*dt;
+			iPoint posWorld = App->map->WorldToMap(pos.x, pos.y);
+			iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
+			if (App->map->CollisionY(posWorld.x, endPosWorld.x, posWorld.y)) {
+				pos.y += gravity*dt;
+			}
+		}
+	}
+
+	pos.y += gravity*dt;
+	iPoint posWorld = App->map->WorldToMap(pos.x, pos.y);
+	iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
+	if (App->map->CollisionY(posWorld.x, endPosWorld.x, endPosWorld.y)) {
+		pos.y -= gravity*dt;
+		jumping = false;
+	}
+	else {
+		jumping = true;
 	}
 	
-	return ret;
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN) {
+		if (!jumping) {
+			jumping = true;
+			actualJumpframes = 1;
+		}
+	}
+	
 }
 
 void j1Player::move(float dt) {
-	float speed = 25.0;
 
-	/*if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
-		position.y += speed;
-		if (position.y > floor) {
-			position.y = floor;
-		}
-	}
-*/
-
-	iPoint posWorld = App->map->WorldToMap(pos.x, pos.y);
-	iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
-	/*pos.y += vel.y *dt;
-	if (App->map->CollisionY(posWorld.x,endPosWorld.x, endPosWorld.y + 1)) {
-	pos.y -= vel.y *dt;
-	}*/
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		current_animation = &left;
-		pos.x -= speed*dt;
-		if (pos.x < 0) {
-			pos.x = 0;
+		pos.x -= vel.x*dt;
+		iPoint posWorld = App->map->WorldToMap(pos.x, pos.y);
+		iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
+		if (App->map->CollisionX(posWorld.x, posWorld.y, endPosWorld.y)) {
+			pos.x += vel.x*dt;
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		current_animation = &right;
-		pos.x += speed*dt;
+		pos.x += vel.x*dt;
+		iPoint posWorld = App->map->WorldToMap(pos.x, pos.y);
+		iPoint endPosWorld = App->map->WorldToMap(pos.x + size.x, pos.y + size.y);
 		if (App->map->CollisionX(endPosWorld.x, posWorld.y, endPosWorld.y)) {
-			pos.x -= speed*dt;
+			pos.x -= vel.x*dt;
 		}
-		//if (pos.x > 760)
-			//pos.x = 760;
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		current_animation = &idle;
 }

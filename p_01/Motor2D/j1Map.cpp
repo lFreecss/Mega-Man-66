@@ -403,7 +403,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, map_layer* layer)
 }
 bool j1Map::CollisionX(uint x, uint y_up, uint y_down)
 {
-	if (x < 0 || x > data.width)
+	if (x <= 0 || x > data.width)
 		return true;
 	p2List_item<map_layer*>* collisions = data.collisions.start;
 	for (uint y = y_up; y <= y_down; y++)
@@ -416,9 +416,9 @@ bool j1Map::CollisionX(uint x, uint y_up, uint y_down)
 
 bool j1Map::CollisionY(uint x_left, uint x_right, uint y)
 {
-	p2List_item<map_layer*>* collisions = data.collisions.start;
 	if (y < 0 || y > data.height)
 		return true;
+	p2List_item<map_layer*>* collisions = data.collisions.start;
 	for (uint x = x_left; x <= x_right; x++)
 	{
 		if (collisions->data->Get(x, y) != 0)
