@@ -87,7 +87,7 @@ bool j1Scene::Update(float dt)
 
 	App->win->SetTitle(title.GetString());
 
-	//Scroll
+	//Scroll, TODO Valdivia
 
 	if (App->player->pos.x > App->render->camera.x + 200 && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT && App->render->camera.x != -1070) {
 
@@ -100,7 +100,7 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x += 1;
 		gate = false;
 	}
-
+	//When player gets at the end of the level, change to the next, TODO Valdivia
 	if (App->player->pos.x >= App->map->data.tile_width*App->map->data.width - 30) {
 		if (current_map == "rock_level.tmx") {
 			ChangeMaps("JAIL.tmx");
@@ -111,7 +111,7 @@ bool j1Scene::Update(float dt)
 		}
 
 	}
-
+	//Change level, for debuging 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 
 		if (current_map == "rock_level.tmx") {
@@ -146,7 +146,7 @@ bool j1Scene::CleanUp()
 
 	return true;
 }
-
+//Change from one map to the other, TODO Valdivia
 void j1Scene::ChangeMaps(const char* map_name) {
 	App->map->CleanUp();
 	App->map->Load(map_name);
@@ -154,7 +154,7 @@ void j1Scene::ChangeMaps(const char* map_name) {
 	InitializeMap();
 	MapStart();
 }
-
+//For starting form the same map, TODO Varela
 void j1Scene::InitializeMap() {
 	if (current_map == "rock_level.tmx") {
 		map_num = 0;
@@ -163,7 +163,7 @@ void j1Scene::InitializeMap() {
 		map_num = 1;
 	}
 }
-
+//To Start form the very first level, TODO Varela
 void j1Scene::Restart() {
 	ChangeMaps("rock_level.tmx");
 	map_num = 0;
@@ -174,14 +174,14 @@ void j1Scene::MapStart() {
 	App->render->camera.x = 0;
 	App->player->Init();
 }
-
+//Load map
 bool j1Scene::Load(pugi::xml_node& data)
 {
 	map_num = data.child("map").attribute("name").as_int();
 	return true;
 }
 
-// Save player position
+// Save map
 bool j1Scene::Save(pugi::xml_node& data) const
 {
 	pugi::xml_node map = data.append_child("map");

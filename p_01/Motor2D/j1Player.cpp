@@ -11,7 +11,7 @@
 j1Player::j1Player() : j1Module() {
 	name.create("player");
 
-	//Mega Man
+	//Mega Man animation, TODO Varela & Valdivia
 	idle.PushBack({ 103, 10, 21, 24 });
 	idle.PushBack({ 103, 10, 21, 24 });
 	idle.PushBack({ 103, 10, 21, 24 });
@@ -89,7 +89,7 @@ bool j1Player::Update(float dt) {
 	
 	return ret;
 }
-
+//Method that loads the XML for the player, TODO Valdivia
 bool j1Player::LoadPlayer() {
 	bool ret = true;
 	pugi::xml_parse_result result = player_file.load_file("player.xml");
@@ -118,7 +118,7 @@ bool j1Player::LoadPlayer() {
 
 	return ret;
 }
-
+//Method for the jump (Valdivia) and the double jump (Varela)
 void j1Player::jump(float dt) {
 		
 	if (actualJumpframes > 0) {
@@ -152,7 +152,7 @@ void j1Player::jump(float dt) {
 	}
 	
 }
-
+//Function that allows the player to move right and left, TODO Valdivia
 void j1Player::move(float dt) {
 
 

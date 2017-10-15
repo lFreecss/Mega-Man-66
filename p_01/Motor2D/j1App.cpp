@@ -142,6 +142,7 @@ bool j1App::Update()
 }
 
 // ---------------------------------------------
+//Load config file, TODO Ricard
 pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 {
 	pugi::xml_node ret;
@@ -156,6 +157,7 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 	return ret;
 }
 
+//Loading map atribute, TODO Valdivia
 p2SString j1App::LoadMap(pugi::xml_node& config)const {
 	p2SString name = nullptr;
 	
@@ -326,7 +328,7 @@ void j1App::GetSaveGames(p2List<p2SString>& list_to_fill) const
 {
 	// need to add functionality to file_system module for this to work
 }
-
+//Calls all the virtual modules to load, TODO Ricard
 bool j1App::LoadGameNow()
 {
 	bool ret = false;
@@ -363,7 +365,7 @@ bool j1App::LoadGameNow()
 	want_to_load = false;
 	return ret;
 }
-
+//Calls all the virtual modules to dave, TODO Ricard
 bool j1App::SavegameNow() const
 {
 	bool ret = true;
