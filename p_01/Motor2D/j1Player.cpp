@@ -115,9 +115,9 @@ bool j1Player::LoadPlayer() {
 		ret = false;
 	}
 	else {
-		p2List_item<map_object*>* object = App->map->data.objects.start;
-		startPos.x = object->data->x; 
-		startPos.y = object->data->y;
+		//p2List_item<map_object*>* object = App->map->data.objects.start;
+		//startPos.x = object->data->x; 
+		//startPos.y = object->data->y;
 
 		vel.x = player.child("physics").attribute("velocityx").as_float();
 		vel.y = player.child("physics").attribute("velocityy").as_float();

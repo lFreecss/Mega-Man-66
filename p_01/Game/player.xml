@@ -1,6 +1,6 @@
 <player>
 
-	<physics velocityx = " 25.0" velocityy = "50.0" gravity = "17.0"/>
+	<physics velocityx = " 30.0" velocityy = "55.0" gravity = "26.0"/>
 	<movement jumpframes= "80"/>
 
 </player>

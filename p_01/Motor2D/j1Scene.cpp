@@ -40,6 +40,9 @@ bool j1Scene::Start()
 		map_num = 0;
 	if (map_name == "JAIL.tmx")
 		map_num = 1;
+	p2List_item<map_object*>* object = App->map->data.objects.start;
+	App->player->startPos.x = object->data->x;
+	App->player->startPos.y = object->data->y;
 	return true;
 }
 
@@ -114,6 +117,7 @@ bool j1Scene::Update(float dt)
 		App->player->pos.x = 60.0;
 		App->render->camera.x = 0;
 
+
 		if (current_map == "rock_level.tmx") {
 			ChangeMaps("JAIL.tmx");
 			map_num = 1;
@@ -168,27 +172,28 @@ void j1Scene::ChangeMaps(const char* map_name) {
 	App->map->CleanUp();
 	App->map->Load(map_name);
 	current_map = map_name;
+	p2List_item<map_object*>* object = App->map->data.objects.start;
+	App->player->startPos.x = object->data->x;
+	App->player->startPos.y = object->data->y;
+	MapStart();
 }
 
 void j1Scene::Restart() {
 	ChangeMaps("rock_level.tmx");
-	App->render->camera.x = 0;
-	App->render->camera.x = 0;
-	App->player->pos.x = App->player->startPos.x;
-	App->player->pos.y = App->player->startPos.y;
+	map_num = 0;
 }
 
 void j1Scene::MapStart() {
 	App->render->camera.x = 0;
 	App->render->camera.x = 0;
-	App->player->pos.x = App->player->startPos.x;
-	App->player->pos.y = App->player->startPos.y;
+	App->player->Init();
+	//App->player->pos.x = App->player->startPos.x;
+	//App->player->pos.y = App->player->startPos.y;
 }
 
 bool j1Scene::Load(pugi::xml_node& data)
 {
 	map_num = data.child("map").attribute("name").as_int();
-
 	return true;
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="50" height="19" tilewidth="16" tileheight="16" nextobjectid="12">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="19" tilewidth="16" tileheight="16" nextobjectid="13">
  <tileset firstgid="1" name="mm1bgset" tilewidth="16" tileheight="16" spacing="4" margin="1" tilecount="360" columns="10">
   <image source="mm1bgset.png" trans="7ea1ff" width="198" height="718"/>
  </tileset>
@@ -1915,6 +1915,6 @@
   </data>
  </layer>
  <objectgroup name="posInit">
-  <object id="9" x="40.6667" y="181"/>
+  <object id="12" x="15" y="127" width="17" height="16"/>
  </objectgroup>
 </map>
