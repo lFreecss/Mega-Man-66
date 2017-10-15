@@ -38,7 +38,7 @@ public:
 	//Start from 1st level
 	void Restart();
 
-	//Start from 1st level
+	//Start from actual level
 	void MapStart();
 
 	// Load / Save

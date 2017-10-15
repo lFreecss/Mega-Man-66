@@ -5,6 +5,9 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include <math.h>
+#include "j1Scene.h"
+#include "j1Player.h"
+
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -371,6 +374,8 @@ bool j1Map::LoadObject(pugi::xml_node& node, map_object* object)
 			object->y = object_node.attribute("y").as_uint();
 			object->width = object_node.attribute("width").as_uint();
 			object->height = object_node.attribute("height").as_uint();
+			App->player->startPos.x = object->x;
+			App->player->startPos.y = object->y;
 		}
 	}
 	return ret;
@@ -416,8 +421,12 @@ bool j1Map::CollisionX(uint x, uint y_up, uint y_down)
 
 bool j1Map::CollisionY(uint x_left, uint x_right, uint y)
 {
-	if (y < 0 || y > data.height)
+	if (y < 0) 
 		return true;
+	if (y >= data.height) {
+		App->scene->MapStart();
+		return true;
+	}
 	p2List_item<map_layer*>* collisions = data.collisions.start;
 	for (uint x = x_left; x <= x_right; x++)
 	{

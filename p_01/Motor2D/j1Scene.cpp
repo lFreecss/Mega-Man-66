@@ -40,9 +40,6 @@ bool j1Scene::Start()
 		map_num = 0;
 	if (map_name == "JAIL.tmx")
 		map_num = 1;
-	p2List_item<map_object*>* object = App->map->data.objects.start;
-	App->player->startPos.x = object->data->x;
-	App->player->startPos.y = object->data->y;
 	return true;
 }
 
@@ -172,9 +169,6 @@ void j1Scene::ChangeMaps(const char* map_name) {
 	App->map->CleanUp();
 	App->map->Load(map_name);
 	current_map = map_name;
-	p2List_item<map_object*>* object = App->map->data.objects.start;
-	App->player->startPos.x = object->data->x;
-	App->player->startPos.y = object->data->y;
 	MapStart();
 }
 
@@ -187,8 +181,6 @@ void j1Scene::MapStart() {
 	App->render->camera.x = 0;
 	App->render->camera.x = 0;
 	App->player->Init();
-	//App->player->pos.x = App->player->startPos.x;
-	//App->player->pos.y = App->player->startPos.y;
 }
 
 bool j1Scene::Load(pugi::xml_node& data)
