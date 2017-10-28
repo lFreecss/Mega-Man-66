@@ -49,7 +49,7 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 private:
-	bool gate = true;
+	p2SString first_map;
 	p2SString current_map;
 	int map_num;
 };
