@@ -2,3 +2,7 @@ version: 1.0.{build}
 image: Visual Studio 2017
 build:
   verbosity: minimal
+  
+  7z a Mega-Man-66.zip "%APPVEYOR_BUILD_FOLDER%\Mega-Man-66\p_01\Game\solution.exe\"
+  7z a Mega-Man-66.zip "%APPVEYOR_BUILD_FOLDER%\Mega-Man-66\p_01\Debug\"
+  7z a Mega-Man-66.zip "%APPVEYOR_BUILD_FOLDER%\Mega-Man-66\*.dll"
